@@ -28,10 +28,9 @@ for wizard in wizardList:
 elixirCounter = Counter(dict(sorted(elixirInventory.items())))
 topThreeElixirs = elixirCounter.most_common(3)
 
-print("Top Three Elixirs:\n" + 50*"~")
+print("Top Three Elixirs".center(60) + '\n' + 60*"~")
 for i in range(0, len(topThreeElixirs)):
     print(f'{i+1}. {topThreeElixirs[i][1]} wizards have the elixir "{topThreeElixirs[i][0]}".')
-print("\n")
 
 ## Top Elixir Side Effects
 try:
@@ -43,7 +42,8 @@ except HTTPError as http_err:
 except Exception as err:
     print(f'Other error occured: {err}')
 # pprint(topElixirProfile)
-print(f'The top elixir has a side effect of: {topElixirProfile["sideEffects"]}\n')
+print(f'\nThe top elixir has a side effect of: {topElixirProfile["sideEffects"]}\n')
+
 
 
 ## Elixirs Sharing Ingredients with Top Elixir
@@ -66,14 +66,15 @@ for elixir in elixirList:
 commonIngredientElixirs.remove(topElixirProfile['name'])
 commonIngredientElixirs.sort()
 
-print(f'Elixirs That Share an Ingredient With "{topElixirProfile["name"]}":')
-print(50*"~")
+print(f'Elixirs That Share an Ingredient With "{topElixirProfile["name"]}"'.center(60))
+print(60 * "~")
 for i in range(0, len(commonIngredientElixirs)):
-    print(f'{(str(i+1)+".").ljust(4)}{commonIngredientElixirs[i]}')
-print('\n')
+    print(f'{str(i+1)+".":<4}{commonIngredientElixirs[i]}')
+print()
 
 
 
+## Spell Types
 try:
     response = requests.get('https://wizard-world-api.herokuapp.com/Spells')
     response.raise_for_status()
@@ -90,10 +91,10 @@ for spell in spellList:
             spellTypes[spell["type"]] = 1
         else:
             spellTypes[spell["type"]] = spellTypes[spell["type"]]+1
-
+## Get count of spells with that type
 spellTypeCounter = Counter(dict(sorted(spellTypes.items())))
 spellTypeCounts = spellTypeCounter.most_common()
-## Get count of spells with that type
-print('Spell Types and Number of Spells with that Type\n'+ 50*'~')
+
+print('Spell Types and Number of Spells with that Type'.center(60) + '\n' + 60*'~')
 for i in range(0, len(spellTypeCounts)):
-    print((str(i+1)+".").ljust(4)+ f'{spellTypeCounts[i][0]}'.ljust(35) + f'x {spellTypeCounts[i][1]}')
+    print(f'{str(i+1)+".":<4}{spellTypeCounts[i][0]:<35} x {spellTypeCounts[i][1]}')
