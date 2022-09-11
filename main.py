@@ -1,6 +1,4 @@
 import requests
-from pprint import pprint
-import re
 from requests.exceptions import HTTPError
 from collections import Counter
 
@@ -19,7 +17,6 @@ except Exception as err:
 elixirInventory = {}
 for wizard in wizardList:
     for elixir in wizard["elixirs"]:
-        # pprint(elixir)
         if elixir["name"] not in elixirInventory:
             elixirInventory[elixir["name"]] = 1
         else:
@@ -41,7 +38,6 @@ except HTTPError as http_err:
     print(f'Https error occured: {http_err}')
 except Exception as err:
     print(f'Other error occured: {err}')
-# pprint(topElixirProfile)
 print(f'\nThe top elixir has a side effect of: {topElixirProfile["sideEffects"]}\n')
 
 
