@@ -1,5 +1,6 @@
 import requests
 from pprint import pprint
+import re
 from requests.exceptions import HTTPError
 from collections import Counter
 
@@ -68,4 +69,31 @@ commonIngredientElixirs.sort()
 print(f'Elixirs That Share an Ingredient With "{topElixirProfile["name"]}":')
 print(50*"~")
 for i in range(0, len(commonIngredientElixirs)):
-    print(f'{i+1}. {commonIngredientElixirs[i]}')
+    print(f'{(str(i+1)+".").ljust(4)}{commonIngredientElixirs[i]}')
+print('\n')
+
+
+
+try:
+    response = requests.get('https://wizard-world-api.herokuapp.com/Spells')
+    response.raise_for_status()
+    spellList = response.json()
+except HTTPError as http_err:
+    print(f'Https error occured: {http_err}')
+except Exception as err:
+    print(f'Other error occured: {err}')
+
+## Generate list of spell types
+spellTypes = {}
+for spell in spellList:
+        if spell["type"] not in spellTypes:
+            spellTypes[spell["type"]] = 1
+        else:
+            spellTypes[spell["type"]] = spellTypes[spell["type"]]+1
+
+spellTypeCounter = Counter(dict(sorted(spellTypes.items())))
+spellTypeCounts = spellTypeCounter.most_common()
+## Get count of spells with that type
+print('Spell Types and Number of Spells with that Type\n'+ 50*'~')
+for i in range(0, len(spellTypeCounts)):
+    print((str(i+1)+".").ljust(4)+ f'{spellTypeCounts[i][0]}'.ljust(35) + f'x {spellTypeCounts[i][1]}')
